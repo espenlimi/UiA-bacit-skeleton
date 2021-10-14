@@ -1,5 +1,9 @@
 package bacit.web.bacit_web;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,30 +23,23 @@ public class DBUtils {
     }
 
     /**
-     * Establishes a connection with a mariaDB or returns an existing one.
-     * username=root
-     * password=12345
-     * URL=jdbc:mariadb://172.17.0.1:3308/MytestDB
-     *
      * @param out for html printing in front-end e.g. (for errors or content)
      * @return connection to db
      * @throws SQLException if the connection fails
      */
-    public Connection getConnection(PrintWriter out) throws SQLException, ClassNotFoundException {
-        Connection toReturn = null;
-        Class.forName("org.mariadb.jdbc.Driver");
-        try {
-            toReturn = (connection != null)
-                ? connection
-                : DriverManager.getConnection(
-                    "jdbc:mariadb://172.17.0.1:3308/MytestDB",
-                    "root",
-                    "12345");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            out.println("SQL Exception " + e);
+    public Connection getConnection(PrintWriter out) throws SQLException {
+        try{
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            DataSource ds = (DataSource)envCtx.lookup("jdbc/database");
+
+            return ds.getConnection();
         }
-        return toReturn;
+        catch(NamingException ex)
+        {
+            out.println(ex.getMessage());
+        }
+        return null;
     }
 }
 

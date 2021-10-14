@@ -1,0 +1,21 @@
+<Context>
+    <Resource name="jdbc/database"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password="12345"
+              driverClassName="org.mariadb.jdbc.Driver"
+              url="jdbc:mariadb://172.17.0.1:3308/MytestDB"
+              maxActive="15"
+              maxIdle="3"/>
+
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+           userTable="users"
+           userNameCol="LoginName"
+           userCredCol="Password"
+           userRoleTable="user_roles"
+           roleNameCol="role_name"
+           localDataSource="true"
+           dataSourceName="jdbc/database"/>
+</Context>
+
