@@ -1,14 +1,15 @@
 package bacit.web.bacit_web;
 
+import bacit.web.bacit_DAO.FileDAO;
 import bacit.web.bacit_models.FileModel;
 
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.Principal;
 import java.util.Base64;
 import java.util.logging.Logger;
 
@@ -19,9 +20,14 @@ public class FileDownloadServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        FileModel fileModel = getFileModel(1);
-        response.setContentType(fileModel.getMimeType());
+        String stringId = request.getParameter("id");
+        int id = Integer.parseInt(stringId);
+        String username = request.getUserPrincipal().getName();
+
         try{
+            FileModel fileModel = new FileDAO().getFile(id);
+            response.setContentType(fileModel.getContentType());
+
             String headerKey = "Content-Disposition";
             String headerValue ="attachment; filename="+fileModel.getName();
             response.setHeader(headerKey, headerValue);

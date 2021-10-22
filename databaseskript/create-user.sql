@@ -23,6 +23,14 @@ create table Categories (
   CONSTRAINT PRIMARY KEY (Id)
 );
 
+create table Files(
+    Id              integer UNIQUE auto_increment,
+    Name            varchar(255) not null,
+    Content         LONGBLOB not null,
+    ContentType varchar(255) not null,
+    CONSTRAINT PRIMARY KEY (Id)
+);
+
 #inserter en record av en bruker inn i databasen otra.
 insert into users (FullName,
                        PhoneNumber,

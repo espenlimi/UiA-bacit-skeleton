@@ -41,5 +41,18 @@ public class DBUtils {
         }
         return null;
     }
+
+    /**
+     * @return connection to db
+     * @throws SQLException if the connection fails
+     */
+    public Connection getConnection() throws Exception {
+
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            DataSource ds = (DataSource)envCtx.lookup("jdbc/database");
+
+            return ds.getConnection();
+    }
 }
 

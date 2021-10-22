@@ -4,20 +4,20 @@ public class FileModel {
 
     private String name;
     private byte[] contents;
-    private String mimeType;
+    private String contentType;
 
-    public FileModel(String name, byte[] contents, String mimeType) {
+    public FileModel(String name, byte[] contents, String contentType) {
         this.name = name;
         this.contents = contents;
-        this.mimeType = mimeType;
+        this.contentType = contentType;
     }
 
-    public String getMimeType() {
-        return mimeType;
+    public String getContentType() {
+        return contentType;
     }
 
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
     public String getName() {

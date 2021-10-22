@@ -1,5 +1,6 @@
 package bacit.web.bacit_web;
 
+import bacit.web.bacit_DAO.FileDAO;
 import bacit.web.bacit_models.FileModel;
 import bacit.web.bacit_utilities.HtmlHelper;
 
@@ -37,12 +38,18 @@ public class FileUploadServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         HtmlHelper.writeHtmlStart(out, "Upload a file");
         try{
-        Part filePart = request.getPart("file");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        InputStream fileContent = filePart.getInputStream();
-        byte[] fileBytes = fileContent.readAllBytes();
+            Part filePart = request.getPart("file");
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            InputStream fileContent = filePart.getInputStream();
+            byte[] fileBytes = fileContent.readAllBytes();
 
-        FileModel fileModel = new FileModel(fileName, fileBytes, filePart.getContentType());
+            FileModel fileModel = new FileModel(
+                    fileName,
+                    fileBytes,
+                    filePart.getContentType());
+
+            FileDAO dao = new FileDAO();
+            dao.persistFile(fileModel);
 
         logger.info("Received file with name: "+fileModel.getName()+ "with the length of: "+fileModel.getContents().length+" bytes");
         }
