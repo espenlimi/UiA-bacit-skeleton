@@ -2,16 +2,12 @@ package bacit.web.bacit_web;
 
 import bacit.web.bacit_DAO.FileDAO;
 import bacit.web.bacit_models.FileModel;
-import bacit.web.bacit_models.FileResultModel;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.Principal;
-import java.util.Base64;
 import java.util.logging.Logger;
 
 @WebServlet(name = "fileDownload", value = "/fileDownload")
@@ -24,8 +20,8 @@ public class FileDownloadServlet extends HttpServlet {
         String stringId = getQueryStringParameter(request,"id");
         int id = Integer.parseInt(stringId);
         try{
-            FileModel fileModel =  GetFile(id);
-            WriteFileResult(response,fileModel);
+            FileModel fileModel =  getFile(id);
+            writeFileResult(response,fileModel);
         }
         catch(Exception ex)
         {
@@ -33,7 +29,8 @@ public class FileDownloadServlet extends HttpServlet {
         }
     }
 
-     protected FileModel GetFile(int id) throws Exception {
+     protected FileModel getFile(int id) throws Exception
+     {
         return new FileDAO().getFile(id);
     }
 
@@ -42,7 +39,7 @@ public class FileDownloadServlet extends HttpServlet {
         return request.getParameter("id");
     }
 
-    protected void WriteFileResult(HttpServletResponse response, FileModel model) throws IOException
+    protected void writeFileResult(HttpServletResponse response, FileModel model) throws IOException
     {
         response.setContentType(model.getContentType());
         response.setHeader("Content-Disposition", "attachment; filename="+model.getName());

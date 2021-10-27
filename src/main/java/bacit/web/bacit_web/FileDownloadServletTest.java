@@ -1,12 +1,9 @@
 package bacit.web.bacit_web;
 
 import bacit.web.bacit_models.FileModel;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileDownloadServletTest {
@@ -33,13 +30,13 @@ class FileDownloadServletFake extends FileDownloadServlet{
         this.receivedModel = receivedModel;
     }
     @Override
-    protected void WriteFileResult(HttpServletResponse response, FileModel model) throws IOException
+    protected void writeFileResult(HttpServletResponse response, FileModel model) throws IOException
     {
       setReceivedModel(model);
     }
 
     @Override
-    protected FileModel GetFile(int id) throws Exception {
+    protected FileModel getFile(int id) throws Exception {
         return new FileModel("Filename.ext",new byte[1], "application/octet-stream");
     }
 
