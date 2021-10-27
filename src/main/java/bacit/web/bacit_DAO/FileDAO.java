@@ -22,7 +22,7 @@ public class FileDAO {
         db.close();
     }
 
-    public FileModel getFile(int id) throws  Exception
+    public FileModel getFile(int id) throws Exception
     {
         Connection db = DBUtils.getINSTANCE().getConnection();
         String query3 = "select Name, Content, ContentType from Files where id = ?";
